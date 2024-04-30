@@ -66,7 +66,7 @@
   .container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     padding-top: 60px;
     width: 100%;
     position: relative;
@@ -110,10 +110,6 @@
     margin-left: 5px;
   }
 
-  .fa-window-minimize, .fa-expand, .fa-compress {
-    margin-right: 5px;
-  }
-
   .play-button, .resume-button {
     font-size: 20px;
     padding: 10px 20px;
@@ -128,6 +124,14 @@
 
   .play-button:hover, .resume-button:hover {
     background-color: #f39c12;
+  }
+
+  .dark-blue-button {
+    background-color: #34495e;
+  }
+
+  .dark-blue-button:hover {
+    background-color: #2c3e50;
   }
 
   .iframe-container {
@@ -156,12 +160,11 @@
 
   .start-screen img {
     max-width: 100%;
-    max-height: 80%;
+    max-height: 100%;
   }
 </style>
 </head>
 <body>
-
 <div class="navbar">
   <h1>Iowa Farmer Basketball Game</h1>
   <div class="navbar-toggle" id="navbar-toggle">☰</div>
@@ -182,13 +185,11 @@
       </div>
     </div>
     <div class="iframe-container">
-      <!-- Start screen with Play/Restart and Resume Game buttons -->
       <div class="start-screen">
-        <img src="img/icegif-33.gif" alt="Start Animation">
+        <img src="img/farming.gif" alt="Farming Intro">
         <button class="play-button" onclick="startFarming()">Play/Restart</button>
         <button class="resume-button" onclick="resumeGame('.farming .iframe-container iframe')">Resume Game</button>
       </div>
-      <!-- Iframe will be loaded here on Play/Restart -->
     </div>
   </div>
   <div class="section betting">
@@ -199,7 +200,11 @@
       </div>
     </div>
     <div class="iframe-container">
-      <iframe src="https://csa-trimester-2.github.io/nba-analysis-final/" frameborder="0"></iframe>
+      <div class="start-screen">
+        <img src="img/200w (2).gif" alt="Sports Betting Intro">
+        <button class="play-button dark-blue-button" onclick="startBetting()">Play/Restart</button>
+        <button class="resume-button dark-blue-button" onclick="resumeGame('.betting .iframe-container iframe')">Resume Game</button>
+      </div>
     </div>
   </div>
 </div>
@@ -226,11 +231,11 @@ function requestFullScreen(selector) {
   const iframe = document.querySelector(selector);
   if (iframe.requestFullscreen) {
     iframe.requestFullscreen();
-  } else if (iframe.mozRequestFullScreen) { /* Firefox */
+  } else if (iframe.mozRequestFullScreen) {
     iframe.mozRequestFullScreen();
-  } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+  } else if (iframe.webkitRequestFullscreen) {
     iframe.webkitRequestFullscreen();
-  } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+  } else if (iframe.msRequestFullscreen) {
     iframe.msRequestFullscreen();
   }
 }
@@ -238,6 +243,11 @@ function requestFullScreen(selector) {
 function startFarming() {
   const container = document.querySelector('.farming .iframe-container');
   container.innerHTML = '<iframe src="https://del-norte-farmers-iowa-hawkeyes-fanclub.github.io/IHF-Project-Frontend/" frameborder="0" style="width:100%; height:100%;"></iframe>';
+}
+
+function startBetting() {
+  const container = document.querySelector('.betting .iframe-container');
+  container.innerHTML = '<iframe src="https://csa-trimester-2.github.io/nba-analysis-final/" frameborder="0" style="width:100%; height:100%;"></iframe>';
 }
 
 function resumeGame(selector) {
