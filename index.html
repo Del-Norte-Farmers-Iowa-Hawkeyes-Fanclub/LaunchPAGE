@@ -21,7 +21,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: 60px; /* Fixed height for the navbar */
+    height: 60px;
     z-index: 1000;
   }
 
@@ -64,18 +64,24 @@
   }
 
   .container {
-    padding-top: 60px; /* Ensure container is below the navbar */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
     width: 100%;
     position: relative;
     z-index: 1;
+    min-height: 90vh;
   }
 
   .section {
+    flex: 1 1 50%;
     margin: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border-radius: 4px;
     position: relative;
     background: white;
+    min-height: 80vh;
   }
 
   .header {
@@ -104,38 +110,49 @@
     margin-left: 5px;
   }
 
+  .play-button {
+    font-size: 20px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #f1c40f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .play-button:hover {
+    background-color: #f39c12;
+  }
+
   .iframe-container {
     padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .iframe-container iframe {
     width: 100%;
-    height: 500px; /* Default height */
+    height: 100%;
     border: none;
   }
 
-  .maximized {
-    position: fixed;
-    top: 5%;
-    left: 5%;
-    width: 90%;
-    height: 90%;
-    z-index: 2000; /* Make sure it's above everything */
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    overflow: hidden;
-    padding: 20px; /* Provide some padding around the content */
+  .start-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-  
-  .close-fullscreen {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: black;
-    cursor: pointer;
-    z-index: 3000; /* Above the maximized content */
+
+  .start-screen img {
+    max-width: 100%;
+    max-height: 80%;
   }
 </style>
 </head>
@@ -157,20 +174,25 @@
     <div class="header">
       <h2>Farming</h2>
       <div class="controls">
-        <button class="toggle-minimize"><i class="far fa-window-minimize"></i></button>
-        <button class="toggle-maximize"><i class="fas fa-expand"></i></button>
+        <button class="toggle-minimize" onclick="toggleMinimize('.farming .iframe-container')">Minimize</button>
+        <button class="toggle-maximize" onclick="toggleMaximize('.farming .iframe-container')">Maximize</button>
       </div>
     </div>
     <div class="iframe-container">
-      <iframe src="https://del-norte-farmers-iowa-hawkeyes-fanclub.github.io/The-Del-Norte-Association-of-Farmers-Presents-Interactive-Sustainable-Farming-Initiative/" frameborder="0"></iframe>
+      <!-- Start screen with Play button -->
+      <div class="start-screen">
+        <img src="img/icegif-33.gif" alt="Start Animation">
+        <button class="play-button" onclick="startFarming()">Play!</button>
+      </div>
+      <!-- Iframe will be loaded here on Play -->
     </div>
   </div>
   <div class="section betting">
     <div class="header">
       <h2>Sports Betting</h2>
       <div class="controls">
-        <button class="toggle-minimize"><i class="far fa-window-minimize"></i></button>
-        <button class="toggle-maximize"><i class="fas fa-expand"></i></button>
+        <button class="toggle-minimize" onclick="toggleMinimize('.betting .iframe-container')">Minimize</button>
+        <button class="toggle-maximize" onclick="toggleMaximize('.betting .iframe-container')">Maximize</button>
       </div>
     </div>
     <div class="iframe-container">
@@ -184,42 +206,57 @@
 </div>
 
 <script>
-  document.getElementById('navbar-toggle').addEventListener('click', function() {
-    document.getElementById('navbar-links').style.display = 'block';
-  });
+document.getElementById('navbar-toggle').addEventListener('click', function() {
+  var links = document.getElementById('navbar-links');
+  if (links.style.display === 'block') {
+    links.style.display = 'none';
+  } else {
+    links.style.display = 'block';
+  }
+});
 
-  document.getElementById('navbar-close').addEventListener('click', function() {
-    document.getElementById('navbar-links').style.display = 'none';
-  });
+document.getElementById('navbar-close').addEventListener('click', function() {
+  document.getElementById('navbar-links').style.display = 'none';
+});
 
-  document.querySelectorAll('.toggle-maximize').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const iframeContainer = this.closest('.section').querySelector('.iframe-container');
-      const iframe = iframeContainer.querySelector('iframe');
-      if (!iframeContainer.classList.contains('maximized')) {
-        iframe.style.height = 'calc(100% - 40px)';
-        iframeContainer.insertAdjacentHTML('beforeend', '<div class="close-fullscreen">×</div>');
-        const closeBtn = iframeContainer.querySelector('.close-fullscreen');
-        closeBtn.addEventListener('click', function() {
-          iframeContainer.classList.remove('maximized');
-          iframe.style.height = '500px'; // Reset to default height
-          closeBtn.remove();
-          btn.innerHTML = '<i class="fas fa-expand"></i>';
-        });
-      } else {
-        iframe.style.height = '500px'; // Reset to default height when exiting fullscreen
-      }
-      iframeContainer.classList.toggle('maximized');
-      btn.innerHTML = iframeContainer.classList.contains('maximized') ? '<i class="fas fa-compress"></i>' : '<i class="fas fa-expand"></i>';
-    });
-  });
+function toggleMaximize(selector) {
+  const container = document.querySelector(selector);
+  if (container.style.width === '100%' && container.style.height === '100vh') {
+    container.style.width = '';
+    container.style.height = '';
+  } else {
+    container.style.width = '100%';
+    container.style.height = '100vh';
+    document.body.style.overflow = 'hidden'; // Optional: prevent scrolling on body
+  }
+}
 
-  document.querySelectorAll('.toggle-minimize').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const iframeContainer = this.closest('.section').querySelector('.iframe-container');
-      iframeContainer.style.height = iframeContainer.style.height === '0px' ? '500px' : '0px';
-    });
-  });
+function toggleMinimize(selector) {
+  const container = document.querySelector(selector);
+  if (container.style.height === '50px') {
+    container.style.height = '100%';
+  } else {
+    container.style.height = '50px';
+  }
+}
+
+function startFarming() {
+  const container = document.querySelector('.farming .iframe-container');
+  container.innerHTML = '<iframe src="https://del-norte-farmers-iowa-hawkeyes-fanclub.github.io/IHF-Project-Frontend/" frameborder="0" style="width:100%; height:100%;"></iframe>';
+  launchFullScreen(container); // Auto-maximize on play
+}
+
+function launchFullScreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
+}
 </script>
 
 </body>
