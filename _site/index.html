@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hawkeye Farmers v0.0.4</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  .navbar {
+    background-color: #f1c40f;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px; /* Fixed height for the navbar */
+    z-index: 1000;
+  }
+
+  .navbar h1 {
+    color: #333;
+    font-size: 24px;
+    padding: 18px 20px;
+    margin: 0;
+    display: inline-block;
+  }
+
+  .navbar-links {
+    display: none;
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    background-color: #f1c40f;
+    z-index: 1000;
+  }
+
+  .navbar-links a {
+    color: #333;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #fff;
+  }
+
+  .navbar-links a:hover {
+    background-color: #f39c12;
+    color: #fff;
+  }
+
+  .navbar-toggle {
+    float: right;
+    padding: 22px 20px;
+    font-size: 18px;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .container {
+    padding-top: 60px; /* Ensure container is below the navbar */
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section {
+    margin: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    position: relative;
+    background: white;
+  }
+
+  .header {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  .header h2 {
+    margin: 0;
+  }
+
+  .controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 5px;
+  }
+
+  .iframe-container {
+    padding: 0;
+  }
+
+  .iframe-container iframe {
+    width: 100%;
+    height: 500px; /* Default height */
+    border: none;
+  }
+
+  .maximized {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    z-index: 2000; /* Make sure it's above everything */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    padding: 20px; /* Provide some padding around the content */
+  }
+  
+  .close-fullscreen {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    z-index: 3000; /* Above the maximized content */
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <h1>Iowa Farmer Basketball Game</h1>
+  <div class="navbar-toggle" id="navbar-toggle">☰</div>
+</div>
+<div class="navbar-links" id="navbar-links">
+  <a href="#">Home</a>
+  <a href="/shop.html">Shop</a>
+  <a href="#">About Us</a>
+  <a href="#" id="navbar-close">Close ×</a>
+</div>
+
+<div class="container">
+  <div class="section farming">
+    <div class="header">
+      <h2>Farming</h2>
+      <div class="controls">
+        <button class="toggle-minimize"><i class="far fa-window-minimize"></i></button>
+        <button class="toggle-maximize"><i class="fas fa-expand"></i></button>
+      </div>
+    </div>
+    <div class="iframe-container">
+      <iframe src="https://del-norte-farmers-iowa-hawkeyes-fanclub.github.io/The-Del-Norte-Association-of-Farmers-Presents-Interactive-Sustainable-Farming-Initiative/" frameborder="0"></iframe>
+    </div>
+  </div>
+  <div class="section betting">
+    <div class="header">
+      <h2>Sports Betting</h2>
+      <div class="controls">
+        <button class="toggle-minimize"><i class="far fa-window-minimize"></i></button>
+        <button class="toggle-maximize"><i class="fas fa-expand"></i></button>
+      </div>
+    </div>
+    <div class="iframe-container">
+      <iframe src="https://csa-trimester-2.github.io/nba-analysis-final/" frameborder="0"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2024 Iowa Farmer Basketball Shop</p>
+</div>
+
+<script>
+  document.getElementById('navbar-toggle').addEventListener('click', function() {
+    document.getElementById('navbar-links').style.display = 'block';
+  });
+
+  document.getElementById('navbar-close').addEventListener('click', function() {
+    document.getElementById('navbar-links').style.display = 'none';
+  });
+
+  document.querySelectorAll('.toggle-maximize').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const iframeContainer = this.closest('.section').querySelector('.iframe-container');
+      const iframe = iframeContainer.querySelector('iframe');
+      if (!iframeContainer.classList.contains('maximized')) {
+        iframe.style.height = 'calc(100% - 40px)';
+        iframeContainer.insertAdjacentHTML('beforeend', '<div class="close-fullscreen">×</div>');
+        const closeBtn = iframeContainer.querySelector('.close-fullscreen');
+        closeBtn.addEventListener('click', function() {
+          iframeContainer.classList.remove('maximized');
+          iframe.style.height = '500px'; // Reset to default height
+          closeBtn.remove();
+          btn.innerHTML = '<i class="fas fa-expand"></i>';
+        });
+      } else {
+        iframe.style.height = '500px'; // Reset to default height when exiting fullscreen
+      }
+      iframeContainer.classList.toggle('maximized');
+      btn.innerHTML = iframeContainer.classList.contains('maximized') ? '<i class="fas fa-compress"></i>' : '<i class="fas fa-expand"></i>';
+    });
+  });
+
+  document.querySelectorAll('.toggle-minimize').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const iframeContainer = this.closest('.section').querySelector('.iframe-container');
+      iframeContainer.style.height = iframeContainer.style.height === '0px' ? '500px' : '0px';
+    });
+  });
+</script>
+
+</body>
+</html>

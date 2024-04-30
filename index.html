@@ -3,90 +3,224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hawkeye Farming Fantasy</title>
+<title>Hawkeye Farmers v0.0.4</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 <style>
-    body {
-        font-family: 'Chalkduster', 'Comic Sans MS', sans-serif;
-        background-color: #fdf6e3;
-        color: #586e75;
-        margin: 0;
-        padding: 0;
-    }
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
 
-    .navbar {
-        background-color: #8b4513;
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 60px;
-        line-height: 60px;
-        text-align: left; /* Ensure alignment is to the left */
-        padding-left: 10px; /* Add some padding to the left for aesthetics */
-    }
+  .navbar {
+    background-color: #f1c40f;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px; /* Fixed height for the navbar */
+    z-index: 1000;
+  }
 
-    .navbar h1 {
-        display: inline-block;
-        margin: 0;
-        padding: 0 10px;
-        background-color: #6b8e23;
-        color: #FFFFFF;
-        font-size: 24px;
-        border-radius: 5px;
-    }
+  .navbar h1 {
+    color: #333;
+    font-size: 24px;
+    padding: 18px 20px;
+    margin: 0;
+    display: inline-block;
+  }
 
-    .navbar a {
-        display: inline-block;
-        color: #f0f0f0;
-        text-align: center;
-        padding: 14px 20px;
-        text-decoration: none;
-        font-size: 18px;
-    }
+  .navbar-links {
+    display: none;
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    background-color: #f1c40f;
+    z-index: 1000;
+  }
 
-    .content {
-        margin-top: 70px;
-        text-align: center;
-    }
+  .navbar-links a {
+    color: #333;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #fff;
+  }
 
-    .welcome-text {
-        font-size: 22px;
-        margin: 20px 0;
-    }
+  .navbar-links a:hover {
+    background-color: #f39c12;
+    color: #fff;
+  }
 
-    p {
-        font-family: 'Chalkduster', 'Comic Sans MS', sans-serif;
-    }
+  .navbar-toggle {
+    float: right;
+    padding: 22px 20px;
+    font-size: 18px;
+    display: inline-block;
+    cursor: pointer;
+  }
 
-    .iframe-game {
-        border: 5px solid #deb887;
-        border-radius: 10px;
-        margin: 20px auto;
-        display: block;
-        width: 90%;
-        height: 700px; /* Increased height */
-    }
+  .container {
+    padding-top: 60px; /* Ensure container is below the navbar */
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section {
+    margin: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    position: relative;
+    background: white;
+  }
+
+  .header {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  .header h2 {
+    margin: 0;
+  }
+
+  .controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 5px;
+  }
+
+  .iframe-container {
+    padding: 0;
+  }
+
+  .iframe-container iframe {
+    width: 100%;
+    height: 500px; /* Default height */
+    border: none;
+  }
+
+  .maximized {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    z-index: 2000; /* Make sure it's above everything */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    padding: 20px; /* Provide some padding around the content */
+  }
+  
+  .close-fullscreen {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    z-index: 3000; /* Above the maximized content */
+  }
 </style>
 </head>
 <body>
 
 <div class="navbar">
-    <h1>Hawkeye Farming Fantasy</h1>
-    <a href="#explore">Explore</a>
-    <a href="#about">About</a>
-    <a href="#how-to-play">How To Play</a>
-    <a href="#contact">Contact</a>
+  <h1>Iowa Farmer Basketball Game</h1>
+  <div class="navbar-toggle" id="navbar-toggle">☰</div>
+</div>
+<div class="navbar-links" id="navbar-links">
+  <a href="#">Home</a>
+  <a href="/shop.html">Shop</a>
+  <a href="#">About Us</a>
+  <a href="#" id="navbar-close">Close ×</a>
 </div>
 
-<div class="content">
-    <br>
-    <br>
-    <h2 class="welcome-text">Welcome!</h2>
-    <br>
-    <p>Welcome to Hawkeye Farming Fantasy, here you will learn our computing methods by engaging in two different simulators, one regarding farming, and the other regarding choosing fantasy basketball picks.</p>
-    <iframe class="iframe-game" src="https://del-norte-farmers-iowa-hawkeyes-fanclub.github.io/The-Del-Norte-Association-of-Farmers-Presents-Interactive-Sustainable-Farming-Initiative/"></iframe>
-    <iframe class="iframe-game" src="YOUR_SECOND_GAME_LINK_HERE"></iframe>
+<div class="container">
+  <div class="section farming">
+    <div class="header">
+      <h2>Farming</h2>
+      <div class="controls">
+        <button class="toggle-minimize"><i class="far fa-window-minimize"></i></button>
+        <button class="toggle-maximize"><i class="fas fa-expand"></i></button>
+      </div>
+    </div>
+    <div class="iframe-container">
+      <iframe src="https://del-norte-farmers-iowa-hawkeyes-fanclub.github.io/The-Del-Norte-Association-of-Farmers-Presents-Interactive-Sustainable-Farming-Initiative/" frameborder="0"></iframe>
+    </div>
+  </div>
+  <div class="section betting">
+    <div class="header">
+      <h2>Sports Betting</h2>
+      <div class="controls">
+        <button class="toggle-minimize"><i class="far fa-window-minimize"></i></button>
+        <button class="toggle-maximize"><i class="fas fa-expand"></i></button>
+      </div>
+    </div>
+    <div class="iframe-container">
+      <iframe src="https://csa-trimester-2.github.io/nba-analysis-final/" frameborder="0"></iframe>
+    </div>
+  </div>
 </div>
+
+<div class="footer">
+  <p>© 2024 Iowa Farmer Basketball Shop</p>
+</div>
+
+<script>
+  document.getElementById('navbar-toggle').addEventListener('click', function() {
+    document.getElementById('navbar-links').style.display = 'block';
+  });
+
+  document.getElementById('navbar-close').addEventListener('click', function() {
+    document.getElementById('navbar-links').style.display = 'none';
+  });
+
+  document.querySelectorAll('.toggle-maximize').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const iframeContainer = this.closest('.section').querySelector('.iframe-container');
+      const iframe = iframeContainer.querySelector('iframe');
+      if (!iframeContainer.classList.contains('maximized')) {
+        iframe.style.height = 'calc(100% - 40px)';
+        iframeContainer.insertAdjacentHTML('beforeend', '<div class="close-fullscreen">×</div>');
+        const closeBtn = iframeContainer.querySelector('.close-fullscreen');
+        closeBtn.addEventListener('click', function() {
+          iframeContainer.classList.remove('maximized');
+          iframe.style.height = '500px'; // Reset to default height
+          closeBtn.remove();
+          btn.innerHTML = '<i class="fas fa-expand"></i>';
+        });
+      } else {
+        iframe.style.height = '500px'; // Reset to default height when exiting fullscreen
+      }
+      iframeContainer.classList.toggle('maximized');
+      btn.innerHTML = iframeContainer.classList.contains('maximized') ? '<i class="fas fa-compress"></i>' : '<i class="fas fa-expand"></i>';
+    });
+  });
+
+  document.querySelectorAll('.toggle-minimize').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const iframeContainer = this.closest('.section').querySelector('.iframe-container');
+      iframeContainer.style.height = iframeContainer.style.height === '0px' ? '500px' : '0px';
+    });
+  });
+</script>
 
 </body>
 </html>
