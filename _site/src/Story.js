@@ -23,7 +23,7 @@ class Story extends Phaser.Scene {
         this.load.image('erase-button', 'img/buttons/erase-button.png')
         this.load.image('week-button', 'img/buttons/week-button.png')
         this.load.image('save-button', 'img/buttons/save-button.png')
-        this.load.image('beer-button', 'img/button-beer.png')//Replace this with an actual shop button
+        this.load.image('shop-button', 'img/button/image.png')//Replace this with an actual shop button
         
         // tile options (tile, button)
         this.erase = ['erase', 'erase', 'erase-button']
@@ -75,7 +75,7 @@ class Story extends Phaser.Scene {
          // Update the displayed data text
         this.updateText();
 
-        //this.displayShopButton();
+        this.displayShopButton();
 
         // Handle input events
         this.input.on('pointerdown', this.handlePointerDown, this);
@@ -123,10 +123,10 @@ class Story extends Phaser.Scene {
         this.corntext = this.add.text(900, 80, `Corn: ${this.cornStorage}`, { fontSize: '24px', fill: '#fff' });
     }
 
-    DisplayShopButton() {
-        const beerButton = this.add.image(this.tileSize*this.mapSize + 400, this.tileSize * 6 + 100, 'beer-button').setInteractive();
+    displayShopButton() {
+        const shopButton = this.add.image(this.tileSize*this.mapSize + 400, this.tileSize * 6 + 100, 'shop-button').setInteractive();
 
-        beerButton.on('pointerdown', () => {
+        shopButton.on('pointerdown', () => {
             EPT.Sfx.play('click');
             window.location.replace("http://localhost:4000/shop.html");
         }, this);
