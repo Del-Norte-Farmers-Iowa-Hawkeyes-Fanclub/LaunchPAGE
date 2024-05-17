@@ -128,7 +128,7 @@ class Story extends Phaser.Scene {
 
         shopButton.on('pointerdown', () => {
             EPT.Sfx.play('click');
-            window.location.replace("http://localhost:4000/shop.html");
+            window.location.replace("http://localhost:4000/newshop.html");
         }, this);
     }
     
