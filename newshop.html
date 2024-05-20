@@ -136,6 +136,26 @@
             <a href="https://csa-trimester-2.github.io/nba-analysis-final/" class="button">NBA Fantasy Betting</a>
         </div>
         <div class="products">
+            <div class="product" id = "cornProduct">
+                <h2>Corn 🌾</h2>
+                <!-- <img src="placeholder-image.png" alt="Product 3"> -->
+                <p id="ppc">Price: $25</p>
+            </div>
+            <div class="product">
+                <h2>Oats 🥣</h2>
+                <!-- <img src="img/sign.png" alt="Product 1"> -->
+                <p id="ppo">Price: $20</p>
+            </div>
+            <div class="product">
+                <h2>Orange Juice 🍊</h2>
+                <!-- <img src="img/sign.png" alt="Product 1"> -->
+                <p id="ppoj">Price: $20</p>
+            </div>
+            <div class="product">
+                <h2>Coffee ☕︎</h2>
+                <!-- <img src="img/sign.png" alt="Product 1"> -->
+                <p id="ppcf">Price: $20</p>
+            </div>
             <!-- <div class="product">
                 <h2>Farmer Sign 🪧</h2>
                 <img src="img/sign.png" alt="Product 1">
@@ -147,11 +167,6 @@
                 <img src="img/tree.gif" alt="Product 2">
                 <p>Price: $30</p>
             </div> -->
-            <div class="product" id = "cornProduct">
-                <h2>Corn 🌾</h2>
-                <!-- <img src="placeholder-image.png" alt="Product 3"> -->
-                <p id="ppc">Price: $25</p>
-            </div>
             <!-- Additional products can be added in the same manner -->
         </div>
     </div>
@@ -184,6 +199,7 @@
         const mailE = localStorage.getItem('email');
         getCash(mailE);
         document.querySelector("label[for='crop-amount']").textContent = "You have: " + cornQuant + " ears of corn";
+        calculateCornPrice();
         function myFunction(){
             document.getElementById("home");
              window.location.href = '/game.html';
@@ -212,7 +228,6 @@
                 console.error('Error:', error);
             });
         }
-
 
         function getCash(email) {
             fetch('http://localhost:6942/api/person/getCash', {
